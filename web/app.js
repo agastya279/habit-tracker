@@ -315,7 +315,7 @@ document.querySelector("#import-file").addEventListener("change", async (event) 
     const imported = JSON.parse(await file.text());
     if (!Array.isArray(imported) || imported.some((habit) => (
       !habit || typeof habit.name !== "string" || !habit.name.trim() ||
-      (typeof habit.id !== "string" && habit.id !== undefined) ||
+      (habit.id !== undefined && (typeof habit.id !== "string" || !habit.id)) ||
       !habit.history || typeof habit.history !== "object" || Array.isArray(habit.history)
     ))) {
       throw new Error("Invalid habit backup");

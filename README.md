@@ -144,6 +144,8 @@ habit-tracker/
 ├── habit_tracker.py   # Python desktop application
 ├── capacitor.config.json
 ├── package.json       # Capacitor Android dependencies
+├── package-lock.json  # Locked JavaScript dependencies
+├── .gitignore         # Excludes local data and generated build files
 ├── LICENSE            # MIT License
 └── README.md
 ```
