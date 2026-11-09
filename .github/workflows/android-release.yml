@@ -1,0 +1,42 @@
+name: Android APK
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install Capacitor
+        run: npm install --no-audit --no-fund
+      - name: Create Android project
+        run: npx cap add android
+      - name: Sync web app
+        run: npx cap sync android
+      - name: Build debug APK
+        run: cd android && ./gradlew assembleDebug
+      - name: Prepare release asset
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk habit-tracker.apk
+      - name: Publish APK release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: habit-tracker.apk

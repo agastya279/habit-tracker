@@ -1,0 +1,17 @@
+{
+  "name": "Daymark Habit Tracker",
+  "short_name": "Daymark",
+  "description": "A calm, private place to build habits and celebrate steady progress.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f5ef",
+  "theme_color": "#143d35",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import json
 from datetime import date, timedelta
 from pathlib import Path
 import tkinter as tk
-from tkinter import messagebox, ttk
+from tkinter import messagebox, simpledialog, ttk
 
 # Dark-blue palette
 BG = "#081426"
@@ -72,7 +72,32 @@ class HabitTracker:
             return
         name = self.table.item(selected[0], "values")[0]
         history = self.habits[name].setdefault("history", {})
-        history[date.today().isoformat()] = True
+        today = date.today().isoformat()
+        history[today] = not history.get(today, False)
+        self.save_habits()
+        self.refresh()
+
+    def edit_habit(self) -> None:
+        selected = self.table.selection()
+        if not selected:
+            messagebox.showinfo("Select a habit", "Choose a habit to edit.")
+            return
+        old_name = self.table.item(selected[0], "values")[0]
+        new_name = simpledialog.askstring(
+            "Edit habit", "Habit name:", initialvalue=old_name, parent=self.root
+        )
+        if new_name is None:
+            return
+        new_name = new_name.strip()
+        if not new_name:
+            messagebox.showinfo("Habit name needed", "Enter a name for your habit.")
+            return
+        if new_name != old_name and any(
+            existing.casefold() == new_name.casefold() for existing in self.habits
+        ):
+            messagebox.showinfo("Already added", "That habit is already in your list.")
+            return
+        self.habits[new_name] = self.habits.pop(old_name)
         self.save_habits()
         self.refresh()
 
@@ -125,7 +150,8 @@ class HabitTracker:
 
         actions = tk.Frame(self.root, bg=BG)
         actions.pack(fill="x", padx=28, pady=(0, 10))
-        self.button(actions, "Mark done today", self.mark_done).pack(side="left", padx=(0, 9))
+        self.button(actions, "Toggle today", self.mark_done).pack(side="left", padx=(0, 9))
+        self.button(actions, "Edit habit", self.edit_habit).pack(side="left", padx=(0, 9))
         self.button(actions, "Remove habit", self.delete_habit, RED).pack(side="left")
 
         self.summary = tk.StringVar()

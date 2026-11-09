@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#143d35">
+    <meta name="description" content="A calm, private place to build habits and celebrate steady progress.">
+    <title>Daymark | Habit tracker</title>
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#today" aria-label="Daymark home">
+          <span class="brand-mark" aria-hidden="true">d.</span>
+          <span>daymark</span>
+        </a>
+        <div class="topbar-actions">
+          <button class="quiet-button" id="export-button" type="button">Export data</button>
+          <label class="quiet-button import-button" for="import-file">Import data</label>
+          <input id="import-file" type="file" accept="application/json,.json" hidden>
+          <a class="download-button" href="https://github.com/agastya279/habit-tracker/releases/latest/download/habit-tracker.apk">Get Android app <span aria-hidden="true">↓</span></a>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <aside class="sidebar" aria-label="Main navigation">
+          <p class="sidebar-label">Workspace</p>
+          <nav class="primary-nav">
+            <button class="nav-link is-active" data-view="today" type="button"><span aria-hidden="true">◷</span> Today</button>
+            <button class="nav-link" data-view="all" type="button"><span aria-hidden="true">▤</span> All habits</button>
+            <button class="nav-link" data-view="insights" type="button"><span aria-hidden="true">↗</span> Insights</button>
+          </nav>
+          <div class="privacy-note">
+            <span class="privacy-dot" aria-hidden="true"></span>
+            <div><strong>Your data stays yours</strong><p>Saved on this device. No account needed.</p></div>
+          </div>
+        </aside>
+
+        <main id="main-content" class="main-content">
+          <section id="dashboard-view" aria-labelledby="page-title">
+            <div class="page-heading">
+              <div><p class="eyebrow" id="today-label">YOUR DAILY PRACTICE</p><h1 id="page-title">A little progress adds up.</h1></div>
+              <p class="date-stamp" id="date-stamp"></p>
+            </div>
+
+            <section class="overview" aria-label="Today's progress">
+              <div class="overview-copy">
+                <p class="eyebrow">ONE DAY AT A TIME</p>
+                <h2 id="overview-title">Make room for a small win.</h2>
+                <p id="overview-copy">Every check-in is a promise kept to yourself.</p>
+              </div>
+              <div class="progress-ring" id="progress-ring" role="img" aria-label="0 percent complete">
+                <span class="progress-value" id="progress-value">0%</span><span class="progress-caption">today</span>
+              </div>
+              <div class="overview-pattern" aria-hidden="true"></div>
+            </section>
+
+            <div class="stat-row" aria-label="Habit summary">
+              <article class="stat-item"><span class="stat-label">Active habits</span><strong id="stat-total">0</strong></article>
+              <article class="stat-item"><span class="stat-label">Completed today</span><strong id="stat-completed">0 <small>/ 0</small></strong></article>
+              <article class="stat-item"><span class="stat-label">Check-ins this week</span><strong id="stat-week">0</strong></article>
+            </div>
+
+            <section class="habit-section" aria-labelledby="habits-heading">
+              <div class="section-heading">
+                <div><p class="eyebrow">YOUR ROUTINE</p><h2 id="habits-heading">Today's habits</h2></div>
+                <span class="list-count" id="list-count">0 habits</span>
+              </div>
+
+              <form id="add-form" class="add-form">
+                <label class="visually-hidden" for="habit-name">Habit name</label>
+                <input id="habit-name" name="name" type="text" maxlength="48" placeholder="Add a habit to your day" autocomplete="off" required>
+                <label class="visually-hidden" for="habit-category">Category</label>
+                <select id="habit-category" name="category" aria-label="Habit category">
+                  <option>Wellbeing</option><option>Movement</option><option>Learning</option><option>Mindfulness</option><option>Personal</option>
+                </select>
+                <label class="goal-field"><span>Days / week</span><input name="goal" type="number" min="1" max="7" value="5" aria-label="Weekly goal in days"></label>
+                <button class="add-button" type="submit"><span aria-hidden="true">+</span> Add habit</button>
+              </form>
+
+              <div class="list-tools">
+                <label class="search-field"><span aria-hidden="true">⌕</span><span class="visually-hidden">Search habits</span><input id="search-input" type="search" placeholder="Find a habit" autocomplete="off"></label>
+                <label class="visually-hidden" for="status-filter">Filter habits</label>
+                <select id="status-filter" class="filter-select"><option value="all">All habits</option><option value="pending">Not done today</option><option value="done">Done today</option></select>
+              </div>
+
+              <div id="habit-list" class="habit-list" aria-live="polite"></div>
+              <div id="empty-state" class="empty-state" hidden>
+                <span class="empty-spark" aria-hidden="true">✳</span>
+                <h3 id="empty-title">Start with one small thing.</h3>
+                <p id="empty-copy">A habit doesn't need to be impressive. It just needs to be yours.</p>
+              </div>
+            </section>
+          </section>
+
+          <section id="insights-view" class="insights-view" aria-labelledby="insights-title" hidden>
+            <div class="page-heading"><div><p class="eyebrow">THE LONG VIEW</p><h1 id="insights-title">Progress, in perspective.</h1></div><p class="date-stamp">Your recent rhythm</p></div>
+            <div class="insight-stats" id="insight-stats"></div>
+            <section class="insight-section" aria-labelledby="activity-title"><div class="section-heading"><div><p class="eyebrow">LAST 28 DAYS</p><h2 id="activity-title">Daily check-ins</h2></div><span class="list-count">Each mark is a completed habit</span></div><div id="activity-grid" class="activity-grid"></div></section>
+            <section class="insight-section category-section" aria-labelledby="category-title"><div class="section-heading"><div><p class="eyebrow">YOUR MIX</p><h2 id="category-title">Habits by category</h2></div></div><div id="category-list" class="category-list"></div></section>
+          </section>
+
+          <footer class="app-footer"><span>Made for steady progress, not perfection.</span><span>Private by default · Stored on this device</span></footer>
+        </main>
+      </div>
+    </div>
+
+    <dialog id="edit-dialog" class="edit-dialog">
+      <form id="edit-form" method="dialog">
+        <div class="dialog-heading"><div><p class="eyebrow">MAKE IT YOURS</p><h2>Edit habit</h2></div><button class="dialog-close" type="button" aria-label="Close dialog">×</button></div>
+        <input type="hidden" name="id">
+        <label class="dialog-label">Habit name<input name="name" type="text" maxlength="48" required></label>
+        <label class="dialog-label">Category<select name="category"><option>Wellbeing</option><option>Movement</option><option>Learning</option><option>Mindfulness</option><option>Personal</option></select></label>
+        <label class="dialog-label">Weekly goal <span class="goal-inline"><input name="goal" type="number" min="1" max="7" required><span>days per week</span></span></label>
+        <div class="dialog-actions"><button class="delete-button dialog-delete" type="button">Delete habit</button><div class="dialog-primary-actions"><button class="quiet-button dialog-cancel" type="button">Cancel</button><button class="add-button" type="submit">Save changes</button></div></div>
+      </form>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
