@@ -14,7 +14,7 @@ A privacy-first habit tracker with a responsive, installable **website**, an **A
 ![UI](https://img.shields.io/badge/UI-Tkinter-3978F6?style=for-the-badge)
 ![Dependencies](https://img.shields.io/badge/Dependencies-Standard%20Library-4ADE80?style=for-the-badge)
 ![Storage](https://img.shields.io/badge/Storage-Local%20JSON-9BB2D3?style=for-the-badge)
-
+[![XERJ Corpus Hub contributor](https://hub.xerj.org/contributors/agastya279/badge.svg)](https://hub.xerj.org/contributors/agastya279)
 </div>
 
 ---
