@@ -75,7 +75,7 @@ Serve the `web/` directory over localhost so the offline service worker can run:
 python3 -m http.server 8000 --directory web
 ```
 
-Open <http://localhost:8000>. The website is also published through GitHub Pages when the Pages workflow is enabled for the repository.
+Open <daymarkcc.netlify.app>. The website is also published through GitHub Pages when the Pages workflow is enabled for the repository.
 
 ### Download or build the Android app
 
